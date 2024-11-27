@@ -28,20 +28,20 @@ public class UssdSimulatorController {
         String response;
         if (inputs.length == 1) {
             if ("1".equals(inputs[0])) {
-                response = "CON Enter loan amount:";
+                response = "Enter loan amount:";
                 sessionMap.put(sessionId, text);  // Save session
             } else if ("2".equals(inputs[0])) {
-                response = "END Your loan balance is $500.";
+                response = "Your loan balance is $500.";
             } else {
-                response = "END Invalid input.";
+                response = "Invalid input.";
             }
         } else if (inputs.length == 2) {
             // Handle loan amount input
             String loanAmount = inputs[1];
             mqttProducer.publishMessage("/loan/application", loanAmount); // Publish to MQTT
-            response = "END Your loan application for $" + loanAmount + " has been submitted!";
+            response = "Your loan application for $" + loanAmount + " has been submitted!";
         } else {
-            response = "END Invalid session.";
+            response = "Invalid session.";
         }
 
         return response;
