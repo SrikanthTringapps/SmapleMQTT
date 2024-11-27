@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USSD Simulator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .ussd-screen { border: 1px solid #ccc; padding: 15px; width: 300px; }
+        .ussd-input { width: 100%; padding: 8px; margin-top: 10px; }
+        .ussd-btn { padding: 8px 15px; background-color: #4CAF50; color: white; border: none; margin-top: 10px; cursor: pointer; }
+        .ussd-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h2>USSD Simulator</h2>
+    <div class="ussd-screen" id="ussdScreen">
+        Welcome! Select an option:<br>
+        1. Apply for Loan<br>
+        2. Check Balance
+    </div>
+    <input type="text" class="ussd-input" id="ussdInput" placeholder="Enter your choice" />
+    <button class="ussd-btn" id="ussdSend" onclick="sendUssd()">Send</button>
+
+    <script>
+        let sessionData = ""; // Holds the session data for continuity
+
+        function sendUssd() {
+            const userInput = document.getElementById("ussdInput").value;
+            if (!userInput) return;
+
+            sessionData = sessionData ? `${sessionData},${userInput}` : userInput;
+
+            // Make an HTTP POST request to the backend
+            fetch("/mock-ussd", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ sessionId: "12345", text: sessionData }),
+            })
+                .then((response) => response.text())
+                .then((menu) => {
+                    // Update the USSD screen with the response
+                    document.getElementById("ussdScreen").innerHTML = menu;
+
+                    // Clear the input field
+                    document.getElementById("ussdInput").value = "";
+                })
+                .catch((err) => console.error("Error:", err));
+        }
+    </script>
+</body>
+</html>

@@ -2,7 +2,6 @@ package com.mqtt.demo.controller;
 
 
 import org.springframework.web.bind.annotation.*;
-
 import com.mqtt.demo.service.MockService;
 import com.mqtt.demo.service.MqttProducer;
 
