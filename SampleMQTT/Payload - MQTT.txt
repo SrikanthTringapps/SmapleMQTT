@@ -1,0 +1,28 @@
+1) POST Request : 
+
+Request: 
+curl --location 'http://localhost:9191/loan/application' \
+--header 'Content-Type: application/json' \
+--data '{
+    "loanType": "Personal Loan",
+    "amount": 10000
+}'
+
+Response: 
+{"status":"Application Received", "loanId":"12345"}
+
+2) GET Request
+
+curl --location 'http://localhost:9191/loan/status?loanId=12345' \
+--data ''
+
+Response : 
+{"loanId":"12345", "status":"Approved"}
+
+3) GET Request
+
+curl --location 'http://localhost:9191/loan/balance?loanId=12345' \
+--data ''
+
+Response : 
+{"loanId":"12345", "balance":500}
